@@ -1,11 +1,19 @@
 package uvsq.fr.pglp_9_9;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public abstract class Dao<T> {
 	Connection connect;
 	
 	public Dao(Connection conn){
+		try{
+            connect = DriverManager.getConnection("");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	    this.connect = conn;
 	  }
 	   
