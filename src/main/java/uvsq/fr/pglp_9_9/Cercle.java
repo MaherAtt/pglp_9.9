@@ -1,6 +1,6 @@
 package uvsq.fr.pglp_9_9;
 
-public class Cercle {
+public class Cercle implements DrawableShape{
 	Point centre;
 	int rayon;
 	

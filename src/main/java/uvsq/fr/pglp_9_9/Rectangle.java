@@ -1,6 +1,6 @@
 package uvsq.fr.pglp_9_9;
 
-public class Rectangle {
+public class Rectangle implements DrawableShape{
 	Point centre;
 	int longeur;
 	int largeur;

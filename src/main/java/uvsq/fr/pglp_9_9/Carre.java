@@ -1,6 +1,6 @@
 package uvsq.fr.pglp_9_9;
 
-public class Carre {
+public class Carre implements DrawableShape {
 	Point centre;
 	int cote;
 	
