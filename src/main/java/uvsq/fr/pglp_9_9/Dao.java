@@ -37,14 +37,15 @@ public abstract class Dao<T> {
 	  * Méthode de mise à jour
 	  * @param obj
 	  * @return boolean
+	 * @throws SQLException 
 	  */
-	  public abstract boolean update(T obj);
+	  public abstract boolean update(T obj) throws SQLException;
 
 	  /**
 	  * Méthode de recherche des informations
 	  * @param id
 	  * @return T
 	  */
-	  public abstract T find(int id);
+	  public abstract T find(String nom);
 
 }

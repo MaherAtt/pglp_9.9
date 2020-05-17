@@ -40,20 +40,27 @@ public class DaoTriangle extends Dao<Triangle>{
 	}
 
 	@Override
-	public boolean update(Triangle obj) {
+	public boolean update(Triangle obj) throws SQLException {
 		// TODO Auto-generated method stub
+		String query = "update Triangle set centre = ? where nom = ?";
+	      PreparedStatement preparedStmt = connect.prepareStatement(query);
+	      preparedStmt.setString   (1, obj.centre.x+","+obj.centre.y);
+	      preparedStmt.setString(2, obj.nom);
+
+	      // execute the java preparedstatement
+	      preparedStmt.executeUpdate();
 		return false;
 	}
 
 	@Override
-	public Triangle find(int id) {
+	public Triangle find(String nom) {
 		// TODO Auto-generated method stub
 
 	    try {
 	      ResultSet result = this.connect.createStatement(
 	        ResultSet.TYPE_SCROLL_INSENSITIVE, 
 	        ResultSet.CONCUR_READ_ONLY
-	      ).executeQuery("SELECT * FROM Triangle WHERE id = " + id);
+	      ).executeQuery("SELECT * FROM Triangle WHERE nom = '" + nom+"'");
 	        if(result.first())
 	          return new Triangle(result.getString("nom"), new Point(Integer.parseInt(result.getString("centre").split(",")[0]),Integer.parseInt(result.getString("centre").split(",")[1]))  ,result.getInt("a"),result.getInt("b"),result.getInt("c"));         
 	    } catch (SQLException e) {

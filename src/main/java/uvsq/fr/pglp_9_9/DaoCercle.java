@@ -38,19 +38,26 @@ public class DaoCercle extends Dao<Cercle>{
 	}
 
 	@Override
-	public boolean update(Cercle obj) {
+	public boolean update(Cercle obj) throws SQLException {
 		// TODO Auto-generated method stub
+		String query = "update Cercle set centre = ? where nom = ?";
+	      PreparedStatement preparedStmt = connect.prepareStatement(query);
+	      preparedStmt.setString   (1, obj.centre.x+","+obj.centre.y);
+	      preparedStmt.setString(2, obj.nom);
+
+	      // execute the java preparedstatement
+	      preparedStmt.executeUpdate();
 		return false;
 	}
 
 	@Override
-	public Cercle find(int id) {
+	public Cercle find(String nom) {
 		// TODO Auto-generated method stub
 		try {
 		      ResultSet result = this.connect.createStatement(
 		        ResultSet.TYPE_SCROLL_INSENSITIVE, 
 		        ResultSet.CONCUR_READ_ONLY
-		      ).executeQuery("SELECT * FROM Cercle WHERE id = " + id);
+		      ).executeQuery("SELECT * FROM Cercle WHERE nom = '" + nom+"'");
 		        if(result.first())
 		          return new Cercle(result.getString("nom"), new Point(Integer.parseInt(result.getString("centre").split(",")[0]),Integer.parseInt(result.getString("centre").split(",")[1]))  ,result.getInt("rayon"));         
 		    } catch (SQLException e) {

@@ -38,19 +38,26 @@ public class DaoCarre extends Dao<Carre>{
 	}
 
 	@Override
-	public boolean update(Carre obj) {
+	public boolean update(Carre obj) throws SQLException {
 		// TODO Auto-generated method stub
+		String query = "update Carre set centre = ? where nom = ?";
+	      PreparedStatement preparedStmt = connect.prepareStatement(query);
+	      preparedStmt.setString   (1, obj.centre.x+","+obj.centre.y);
+	      preparedStmt.setString(2, obj.nom);
+
+	      // execute the java preparedstatement
+	      preparedStmt.executeUpdate();
 		return false;
 	}
 
 	@Override
-	public Carre find(int id) {
+	public Carre find(String nom) {
 		// TODO Auto-generated method stub
 		try {
 		      ResultSet result = this.connect.createStatement(
 		        ResultSet.TYPE_SCROLL_INSENSITIVE, 
 		        ResultSet.CONCUR_READ_ONLY
-		      ).executeQuery("SELECT * FROM Carre WHERE id = " + id);
+		      ).executeQuery("SELECT * FROM Carre WHERE nom = '" + nom+"'");
 		        if(result.first())
 		          return new Carre(result.getString("nom"), new Point(Integer.parseInt(result.getString("centre").split(",")[0]),Integer.parseInt(result.getString("centre").split(",")[1]))  ,result.getInt("cote"));         
 		    } catch (SQLException e) {
