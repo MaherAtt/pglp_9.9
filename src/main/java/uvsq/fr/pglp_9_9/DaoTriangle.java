@@ -1,17 +1,35 @@
 package uvsq.fr.pglp_9_9;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DaoTriangle extends Dao<Triangle>{
 
-	public DaoTriangle(Connection conn) {
-		super(conn);
+	public DaoTriangle() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public boolean create(Triangle obj) {
+	public boolean create(Triangle obj) throws SQLException {
 		// TODO Auto-generated method stub
+		String query = " insert into Triangle (nom, centre, a, b, c)"
+		        + " values (?, ?, ?, ?, ?)";
+		PreparedStatement preparedStmt = null;
+		try {
+			preparedStmt = connect.prepareStatement(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      preparedStmt.setString (1, obj.nom);
+	      preparedStmt.setString (2, obj.centre.x+","+obj.centre.y);
+	      preparedStmt.setInt   (3, obj.a);
+	      preparedStmt.setInt(4, obj.b);
+	      preparedStmt.setInt    (5, obj.c);
+	      preparedStmt.execute();
 		return false;
 	}
 
@@ -30,7 +48,19 @@ public class DaoTriangle extends Dao<Triangle>{
 	@Override
 	public Triangle find(int id) {
 		// TODO Auto-generated method stub
-		return null;
+
+	    try {
+	      ResultSet result = this.connect.createStatement(
+	        ResultSet.TYPE_SCROLL_INSENSITIVE, 
+	        ResultSet.CONCUR_READ_ONLY
+	      ).executeQuery("SELECT * FROM Triangle WHERE id = " + id);
+	        if(result.first())
+	          return new Triangle(result.getString("nom"), new Point(Integer.parseInt(result.getString("centre").split(",")[0]),Integer.parseInt(result.getString("centre").split(",")[1]))  ,result.getInt("a"),result.getInt("b"),result.getInt("c"));         
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return null;
+		
 	}
 
 }

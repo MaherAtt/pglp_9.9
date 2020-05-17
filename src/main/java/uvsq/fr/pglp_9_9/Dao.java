@@ -7,22 +7,24 @@ import java.sql.SQLException;
 public abstract class Dao<T> {
 	Connection connect;
 	
-	public Dao(Connection conn){
+	public Dao(){
+		String dburl="jdbc:derby:MaBdd;";
 		try{
-            connect = DriverManager.getConnection("");
+            connect = DriverManager.getConnection(dburl);
             
         } catch (SQLException e) {
             e.printStackTrace();
         }
-	    this.connect = conn;
+	    
 	  }
 	   
 	  /**
 	  * Méthode de création
 	  * @param obj
 	  * @return boolean 
+	 * @throws SQLException 
 	  */
-	  public abstract boolean create(T obj);
+	  public abstract boolean create(T obj) throws SQLException;
 
 	  /**
 	  * Méthode pour effacer

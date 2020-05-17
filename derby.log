@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun May 17 15:55:34 CEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-0172-22eb-1e3c-000001670630 
+on database directory /root/Bureau/pglp_9_9/MaBdd with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/root/.m2/repository/org/apache/derby/derby/10.13.1.1/derby-10.13.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_144-b01
+user.dir=/root/Bureau/pglp_9_9
+os.name=Linux
+os.arch=amd64
+os.version=4.12.0-1-amd64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
