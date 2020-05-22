@@ -3,6 +3,7 @@ package uvsq.fr.pglp_9_9;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 public class DrawingTui {
 
@@ -12,49 +13,84 @@ public class DrawingTui {
                 new BufferedReader(new InputStreamReader(System.in));
      String cmd = reader.readLine();
      
-     cmd.replaceAll(",", " ");
-     cmd.replaceAll("=", " ");
-     cmd.replaceAll("(", " ");
-     cmd.replaceAll(")", " ");
+     cmd.replaceAll(" ", "");
      
-     String[] tabCmd=cmd.split(" ");
+     Pattern regCreateCercleCarre = Pattern.compile("([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+)\\)");
+ 	Pattern regCreateRect = Pattern.compile("([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+)\\)([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+)\\)");
+ 	Pattern regCreateTriangle = Pattern.compile("([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+),([0-9]+)\\)");
+ 	Pattern regmove = Pattern.compile("move\\(([a-zA-Z]+),\\(([0-9]+),([0-9]+)\\)\\)");
+ 	Pattern regprint = Pattern.compile("print\\(([a-zA-Z]+)\\)");
+
+
+ 	
+ 	java.util.regex.Matcher m = regCreateCercleCarre.matcher(cmd);
+ 	java.util.regex.Matcher m2 = regCreateRect.matcher(cmd);
+ 	java.util.regex.Matcher m3 = regCreateTriangle.matcher(cmd);
+ 	java.util.regex.Matcher m4 = regmove.matcher(cmd);
+ 	java.util.regex.Matcher m5 = regprint.matcher(cmd);
+
+ 	if(m.matches() )
+ 	{
+ 		//Ici c'est une création
+ 		DrawableShape dp=new Cercle(m.group(1),new Point(Integer.parseInt(m.group(3)),Integer.parseInt(m.group(4))),Integer.parseInt(m.group(5)));
+ 		return new CreateCommand(dp);
+ 	}
+ 	
+ 	if(m2.matches() )
+ 	{
+ 		//Ici c'est une création
+		 DrawableShape sp=new Rectangle(m2.group(1),new Point(Integer.parseInt(m2.group(3)),Integer.parseInt(m2.group(4))),Integer.parseInt(m2.group(5)),Integer.parseInt(m2.group(6)));
+		 return new CreateCommand(sp);
+ 	}
+ 	
+ 	if(m3.matches() )
+ 	{
+ 		//Ici c'est une création
+ 		DrawableShape sp=new Triangle(m3.group(1),new Point(Integer.parseInt(m3.group(3)),Integer.parseInt(m3.group(4))),Integer.parseInt(m3.group(5)),Integer.parseInt(m3.group(6)),Integer.parseInt(m3.group(7)));
+		 return new CreateCommand(sp);	
+ 	}
+ 	
+ 	if(m4.matches())
+ 	{
+ 		//Ici c'est un move
+ 		DaoCarre dc=new DaoCarre();
+ 		DaoRectangle dr=new DaoRectangle();
+ 		DaoTriangle dt=new DaoTriangle();
+ 		DaoCercle dcer=new DaoCercle();
+ 		
+ 		if(dc.find(m4.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dc.find(m4.group(1));
+ 			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
+ 		}
+ 		if(dr.find(m4.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dc.find(m4.group(1));
+ 			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
+
+ 		}
+ 		if(dt.find(m4.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dc.find(m4.group(1));
+ 			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
+
+ 		}
+ 		if(dcer.find(m4.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dc.find(m4.group(1));
+ 			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
+
+ 		}
+ 	}
+ 	
+ 	if(m5.matches())
+ 	{
+ 		//Ici c'est un print
+ 	}
      
-     if(tabCmd[0]=="move")
-     {
-    	 
-     }
-     if(tabCmd[0]=="print")
-     {
-    	 
-     }
-     if(tabCmd[0]!="print" && tabCmd[0]!="move")
-     {
-    	 if(tabCmd[1]=="cercle")
-    	 {
-    		 DrawableShape sp=new Cercle(tabCmd[0],new Point(Integer.parseInt(tabCmd[2]),Integer.parseInt(tabCmd[3])),Integer.parseInt(tabCmd[4]));
-    		 return new CreateCommand(sp);
-    	 }
-    	 if(tabCmd[1]=="carre")
-    	 {
-    		 DrawableShape sp=new Carre(tabCmd[0],new Point(Integer.parseInt(tabCmd[2]),Integer.parseInt(tabCmd[3])),Integer.parseInt(tabCmd[4]));
-    		 return new CreateCommand(sp);
-    	 }
-    	 if(tabCmd[1]=="rectangle")
-    	 {
-    		 DrawableShape sp=new Rectangle(tabCmd[0],new Point(Integer.parseInt(tabCmd[2]),Integer.parseInt(tabCmd[3])),Integer.parseInt(tabCmd[4]),Integer.parseInt(tabCmd[5]));
-    		 return new CreateCommand(sp);
-    	 }
-    	 if(tabCmd[1]=="triangle")
-    	 {
-    		 DrawableShape sp=new Triangle(tabCmd[0],new Point(Integer.parseInt(tabCmd[2]),Integer.parseInt(tabCmd[3])),Integer.parseInt(tabCmd[4]),Integer.parseInt(tabCmd[5]),Integer.parseInt(tabCmd[6]));
-    		 return new CreateCommand(sp);
-    	 }
-    	 if(tabCmd[1]=="composite")
-    	 {
-    		 DrawableShape sp=new CompositeShape(tabCmd[0],new Point(Integer.parseInt(tabCmd[2]),Integer.parseInt(tabCmd[3])));
-    		 return new CreateCommand(sp);
-    	 }
-     }
+     
+     
+    
       
      
 		return null;
