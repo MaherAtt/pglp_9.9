@@ -65,19 +65,19 @@ public class DrawingTui {
  		}
  		if(dr.find(m4.group(1))!=null)
  		{
- 			DrawableShape Cr=dc.find(m4.group(1));
+ 			DrawableShape Cr=dr.find(m4.group(1));
  			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
 
  		}
  		if(dt.find(m4.group(1))!=null)
  		{
- 			DrawableShape Cr=dc.find(m4.group(1));
+ 			DrawableShape Cr=dt.find(m4.group(1));
  			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
 
  		}
  		if(dcer.find(m4.group(1))!=null)
  		{
- 			DrawableShape Cr=dc.find(m4.group(1));
+ 			DrawableShape Cr=dcer.find(m4.group(1));
  			return new MoveCommande(Cr,new Point(Integer.parseInt(m4.group(2)),Integer.parseInt(m4.group(3))));
 
  		}
@@ -86,6 +86,35 @@ public class DrawingTui {
  	if(m5.matches())
  	{
  		//Ici c'est un print
+ 		DaoCarre dc=new DaoCarre();
+ 		DaoRectangle dr=new DaoRectangle();
+ 		DaoTriangle dt=new DaoTriangle();
+ 		DaoCercle dcer=new DaoCercle();
+ 		
+ 		if(dc.find(m5.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dr.find(m5.group(1));
+ 			System.out.println(Cr.nom);
+ 			return new PrintCommand(Cr); 		}
+ 		if(dr.find(m5.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dr.find(m5.group(1));
+ 			System.out.println(Cr.nom);
+ 			return new PrintCommand(Cr);
+ 		}
+ 		if(dt.find(m5.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dt.find(m5.group(1));
+ 			System.out.println(Cr.nom);
+ 			return new PrintCommand(Cr);
+
+ 		}
+ 		if(dcer.find(m5.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dcer.find(m5.group(1));
+ 			System.out.println(Cr.nom);
+ 			return new PrintCommand(Cr);
+ 		}
  	}
      
      
