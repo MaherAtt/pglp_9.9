@@ -28,6 +28,8 @@ public class DaoCercle extends Dao<Cercle>{
 	      preparedStmt.setString (2, obj.centre.x+","+obj.centre.y);
 	      preparedStmt.setInt   (3, obj.rayon);
 	      preparedStmt.execute();
+	      preparedStmt.close();
+	      connect.close();
 		return false;
 	}
 
@@ -40,13 +42,17 @@ public class DaoCercle extends Dao<Cercle>{
 	@Override
 	public boolean update(Cercle obj) throws SQLException {
 		// TODO Auto-generated method stub
-		String query = "update Cercle set centre = ? where nom = ?";
+		String query = "update Cercle set centre = ?,rayon= ? where nom = ?";
 	      PreparedStatement preparedStmt = connect.prepareStatement(query);
 	      preparedStmt.setString   (1, obj.centre.x+","+obj.centre.y);
-	      preparedStmt.setString(2, obj.nom);
+	      preparedStmt.setString(3, obj.nom);
+	      preparedStmt.setString(2, ""+obj.rayon);
+	      
 
 	      // execute the java preparedstatement
 	      preparedStmt.executeUpdate();
+	      preparedStmt.close();
+	      connect.close();
 		return false;
 	}
 
@@ -63,6 +69,7 @@ public class DaoCercle extends Dao<Cercle>{
 		    } catch (SQLException e) {
 		      e.printStackTrace();
 		    }
+		
 		    return null;
 	}
 

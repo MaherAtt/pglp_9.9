@@ -13,6 +13,7 @@ public abstract class Dao<T> {
             connect = DriverManager.getConnection(dburl);
             
         } catch (SQLException e) {
+        	
             e.printStackTrace();
         }
 	    

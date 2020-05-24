@@ -24,7 +24,10 @@ public class App
     	
     	while(true)
     	{
-    		tu.nextCommand().execute();
+    		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+         String cmd = reader.readLine();
+         System.out.println(cmd);
+    		tu.nextCommand(cmd).execute();
     	}
     
        

@@ -16,6 +16,7 @@ public class MoveCommande implements Command {
 		// TODO Auto-generated method stub
 		shape.centre.x+=deplacement.x;
 		shape.centre.y+=deplacement.y;
+		System.out.println(shape.centre.x+" "+shape.centre.y);
 		if (shape instanceof Carre)
 		{
 			DaoCarre dc=new DaoCarre();
