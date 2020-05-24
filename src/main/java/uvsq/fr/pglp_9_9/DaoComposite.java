@@ -28,11 +28,7 @@ public class DaoComposite  extends Dao<CompositeShape>{
 			String childs="";
 		      preparedStmt.setString (1, obj.nom);
 		      preparedStmt.setString (2, obj.centre.x+","+obj.centre.y);
-		      for(int h=0;h<obj.shapes.size();h++)
-		      {
-		    	  childs+= obj.shapes.get(h).nom+",";
-		      }
-		      childs=childs.substring(0, childs.length()-1);
+		      
 		      preparedStmt.setString (3, childs);
 		      preparedStmt.execute();
 			return false;
@@ -51,12 +47,13 @@ public class DaoComposite  extends Dao<CompositeShape>{
 			      ResultSet result = this.connect.createStatement(
 			        ResultSet.TYPE_SCROLL_INSENSITIVE, 
 			        ResultSet.CONCUR_READ_ONLY
-			      ).executeQuery("SELECT * FROM Cercle WHERE nom = " + nom);
+			      ).executeQuery("SELECT * FROM CompositeShape WHERE nom = '" + nom+"'");
 			        if(result.first())
 			        {
-			        	String req = "update Cercle set fils = ? where nom = ?";
+			        	
+			        	String req = "update CompositeShape set fils = ? where nom = ?";
 					      PreparedStatement preparedStmt = connect.prepareStatement(req);
-					      preparedStmt.setString   (1,result.getString("fils"));
+					      preparedStmt.setString   (1,result.getString("fils")+","+sp.nom);
 					      preparedStmt.setString(2, nom);
 
 					      // execute the java preparedstatement

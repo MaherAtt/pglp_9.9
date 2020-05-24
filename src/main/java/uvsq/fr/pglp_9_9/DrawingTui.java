@@ -14,11 +14,11 @@ public class DrawingTui {
      cmd.replaceAll(" ", "");
      
     Pattern regCreateCercleCarre = Pattern.compile("([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+)\\)");
- 	Pattern regCreateRect = Pattern.compile("([a-zA-Z]+)=(Rectangle)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+)\\)([a-zA-Z]+)=([a-zA-Z]+)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+)\\)");
- 	Pattern regCreateTriangle = Pattern.compile("([a-zA-Z]+)=(Triangle)\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+),([0-9]+)\\)");
+ 	Pattern regCreateRect = Pattern.compile("([a-zA-Z]+)=Rectangle\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+)\\)");
+ 	Pattern regCreateTriangle = Pattern.compile("([a-zA-Z]+)=Triangle\\(\\(([0-9]+),([0-9]+)\\),([0-9]+),([0-9]+),([0-9]+)\\)");
  	Pattern regmove = Pattern.compile("move\\(([a-zA-Z]+),\\(([0-9]+),([0-9]+)\\)\\)");
  	Pattern regprint = Pattern.compile("print\\(([a-zA-Z]+)\\)");
- 	Pattern regComp = Pattern.compile("([a-zA-Z]+)=(Composite)\\(\\(([0-9]+),([0-9]+)\\)\\)");
+ 	Pattern regComp = Pattern.compile("([a-zA-Z]+)=Composite\\(\\(([0-9]+),([0-9]+)\\)\\)");
  	Pattern regAdd = Pattern.compile("add\\(([a-zA-Z]+),([a-zA-Z]+)\\)");
 
  	
@@ -50,14 +50,14 @@ public class DrawingTui {
  	if(m2.matches() )
  	{
  		//Ici c'est une création
-		 DrawableShape sp=new Rectangle(m2.group(1),new Point(Integer.parseInt(m2.group(3)),Integer.parseInt(m2.group(4))),Integer.parseInt(m2.group(5)),Integer.parseInt(m2.group(6)));
+		 DrawableShape sp=new Rectangle(m2.group(1),new Point(Integer.parseInt(m2.group(2)),Integer.parseInt(m2.group(3))),Integer.parseInt(m2.group(4)),Integer.parseInt(m2.group(5)));
 		 return new CreateCommand(sp);
  	}
  	
  	if(m3.matches() )
  	{
  		//Ici c'est une création
- 		DrawableShape sp=new Triangle(m3.group(1),new Point(Integer.parseInt(m3.group(3)),Integer.parseInt(m3.group(4))),Integer.parseInt(m3.group(5)),Integer.parseInt(m3.group(6)),Integer.parseInt(m3.group(7)));
+ 		DrawableShape sp=new Triangle(m3.group(1),new Point(Integer.parseInt(m3.group(2)),Integer.parseInt(m3.group(3))),Integer.parseInt(m3.group(4)),Integer.parseInt(m3.group(5)),Integer.parseInt(m3.group(6)));
 		 return new CreateCommand(sp);	
  	}
  	
@@ -107,11 +107,12 @@ public class DrawingTui {
  		DaoRectangle dr=new DaoRectangle();
  		DaoTriangle dt=new DaoTriangle();
  		DaoCercle dcer=new DaoCercle();
+ 		DaoComposite dcomp=new DaoComposite();
  		
  		if(dc.find(m5.group(1))!=null)
  		{
- 			DrawableShape Cr=dr.find(m5.group(1));
- 			System.out.println(Cr.nom);
+ 			DrawableShape Cr=dc.find(m5.group(1));
+ 			
  			return new PrintCommand(Cr); 		}
  		if(dr.find(m5.group(1))!=null)
  		{
@@ -132,14 +133,19 @@ public class DrawingTui {
  			System.out.println(Cr.nom);
  			return new PrintCommand(Cr);
  		}
+ 		if(dcomp.find(m5.group(1))!=null)
+ 		{
+ 			DrawableShape Cr=dcomp.find(m5.group(1));
+ 			System.out.println(Cr.nom);
+ 			return new PrintCommand(Cr);
+ 		}
  	}
      
      if(m6.matches())
      {
-    	 DrawableShape Comp=new CompositeShape(m6.group(1),new Point(Integer.parseInt(m6.group(3)),Integer.parseInt(m6.group(4))));
+    	 DrawableShape Comp=new CompositeShape(m6.group(1),new Point(Integer.parseInt(m6.group(2)),Integer.parseInt(m6.group(3))));
     	 return new CreateCommand(Comp);
      }
-     
      if(m7.matches())
      {
     	 DaoCarre dc=new DaoCarre();
@@ -148,30 +154,30 @@ public class DrawingTui {
   		DaoCercle dcer=new DaoCercle();
   		DaoComposite dcomp=new DaoComposite();
   		
-  		if(dc.find(m4.group(2))!=null)
+  		if(dc.find(m7.group(2))!=null)
   		{
-  			DrawableShape Cr=dc.find(m4.group(2));
-  			return new AddCommand(dcomp.find(m4.group(1)),Cr);
+  			DrawableShape Cr=dc.find(m7.group(2));
+  			return new AddCommand(dcomp.find(m7.group(1)),Cr);
   		}
-  		if(dr.find(m4.group(1))!=null)
+  		if(dr.find(m7.group(2))!=null)
   		{
-  			DrawableShape Cr=dr.find(m4.group(2));
-  			return new AddCommand(dcomp.find(m4.group(1)),Cr);
+  			DrawableShape Cr=dr.find(m7.group(2));
+  			return new AddCommand(dcomp.find(m7.group(1)),Cr);
   		}
-  		if(dt.find(m4.group(1))!=null)
+  		if(dt.find(m7.group(2))!=null)
   		{
-  			DrawableShape Cr=dt.find(m4.group(2));
-  			return new AddCommand(dcomp.find(m4.group(1)),Cr);
+  			DrawableShape Cr=dt.find(m7.group(2));
+  			return new AddCommand(dcomp.find(m7.group(1)),Cr);
   		}
-  		if(dcer.find(m4.group(1))!=null)
+  		if(dcer.find(m7.group(2))!=null)
   		{
-  			DrawableShape Cr=dcer.find(m4.group(2));
-  			return new AddCommand(dcomp.find(m4.group(1)),Cr);
+  			DrawableShape Cr=dcer.find(m7.group(2));
+  			return new AddCommand(dcomp.find(m7.group(1)),Cr);
   		}
-  		if(dcomp.find(m4.group(1))!=null)
+  		if(dcomp.find(m7.group(2))!=null)
   		{
-  			DrawableShape Cr=dcomp.find(m4.group(2));
-  			return new AddCommand(dcomp.find(m4.group(1)),Cr);
+  			DrawableShape Cr=dcomp.find(m7.group(2));
+  			return new AddCommand(dcomp.find(m7.group(1)),Cr);
   		}
      }
      

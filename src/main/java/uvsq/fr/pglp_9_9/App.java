@@ -20,15 +20,8 @@ public class App
     public static void main( String[] args ) throws SQLException, IOException
     {
     	
-    	DrawingTui tu=new DrawingTui();
-    	
-    	while(true)
-    	{
-    		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-         String cmd = reader.readLine();
-         System.out.println(cmd);
-    		tu.nextCommand(cmd).execute();
-    	}
+    	DrawingApp MonApp=new DrawingApp();
+    	MonApp.run();
     
        
     	
