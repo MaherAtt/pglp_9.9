@@ -48,5 +48,16 @@ public class DessinTest {
 		DaoComposite cir=new DaoComposite();
 		assert(cir.find("UnComp")!=null);
 	}
+	
+	@Test
+	public void testMove() throws SQLException, IOException {
+		DrawingTui tu=new DrawingTui();
+		tu.nextCommand("UnCerc=Cercle((0,0),5)").execute();
+		tu.nextCommand("move(UnCerc,(4,4))").execute();
+		DaoComposite cir=new DaoComposite();
+		System.out.println(cir.find("UnCerc").centre.x+" "+cir.find("UnCerc").centre.y);
+		assert(cir.find("UnCerc").centre.x==4 && cir.find("UnCerc").centre.y==4);
+	}
+	
 
 }
